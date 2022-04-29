@@ -21,15 +21,14 @@ else:
 num = 0
 if (flag):
     while (True):
-        ret, frame = cap.read()  # 读取一帧
-        # if(frame is None):
-        if ret == False:  # 读取帧失败
-            break
+        frame = cv2.imread('pic/color3.jpg')  # 读取一帧
+
         hsv_img = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        mask_green = cv2.inRange(hsv_img, lower_green, upper_green)  # 根据颜色范围删选
+        #mask_green = cv2.inRange(hsv_img, lower_green, upper_green)  # 根据颜色范围删选
+        mask_green = cv2.inRange(hsv_img,(0,239,216),(136,255,255))
         mask_red = cv2.inRange(hsv_img, lower_red, upper_red)  # 根据颜色范围删选
         mask_green = cv2.medianBlur(mask_green, 7)  # 中值滤波
-        mask_red = cv2.medianBlur(mask_red, 7)  # 中值滤波
+        #mask_red = cv2.medianBlur(mask_red, 7)  # 中值滤波
         mask = cv2.bitwise_or(mask_green, mask_red)
         cv2.imshow('mask_green', mask_green)
         cv2.imshow('mask_red', mask_red)
@@ -40,7 +39,7 @@ if (flag):
         for cnt in contours:
             (x, y, w, h) = cv2.boundingRect(cnt)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 255), 2)
-            cv2.putText(frame, "green", (x, y - 5), font, 0.7, (0, 255, 0), 2)
+            cv2.putText(frame, "g", (x, y - 5), font, 0.7, (0, 255, 0), 2)
 
         for cnt2 in contours2:
             (x2, y2, w2, h2) = cv2.boundingRect(cnt2)
